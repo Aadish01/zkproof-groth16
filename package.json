@@ -9,7 +9,10 @@
     "setup": "snarkjs groth16 setup build/ValidatorDelta.r1cs build/pot12_final.ptau build/ValidatorDelta_0000.zkey && snarkjs zkey contribute build/ValidatorDelta_0000.zkey build/ValidatorDelta_final.zkey --name=\"1st Contributor\" -e=\"random entropy\" && snarkjs zkey export verificationkey build/ValidatorDelta_final.zkey build/verification_key.json",
     "prove": "node scripts/prove.js",
     "verify": "snarkjs groth16 verify build/verification_key.json build/public.json build/proof.json",
-    "export:verifier": "snarkjs zkey export solidityverifier build/ValidatorDelta_final.zkey build/Verifier.sol"
+    "export:verifier": "mkdir -p src && snarkjs zkey export solidityverifier build/ValidatorDelta_final.zkey src/Verifier.sol",
+    "forge:build": "forge build",
+    "deploy:verifier": "forge create src/Verifier.sol:Groth16Verifier --rpc-url \"$RPC_URL\" --private-key \"$PRIVATE_KEY\"",
+    "verify:verifier": "forge verify-contract --chain-id \"$CHAIN_ID\" --etherscan-api-key \"$ETHERSCAN_API_KEY\" \"$VERIFIER_ADDRESS\" src/Verifier.sol:Groth16Verifier"
   },
   "devDependencies": {
     "snarkjs": "^0.7.5"
