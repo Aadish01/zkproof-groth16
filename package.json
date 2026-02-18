@@ -1,0 +1,17 @@
+{
+  "name": "zkproof-groth16-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Minimal Groth16 setup for validator delta proof",
+  "scripts": {
+    "compile": "mkdir -p build && circom circuits/ValidatorDelta.circom --r1cs --wasm --sym -o build",
+    "powersoftau": "mkdir -p build && snarkjs powersoftau new bn128 12 build/pot12_0000.ptau && snarkjs powersoftau contribute build/pot12_0000.ptau build/pot12_0001.ptau --name=\"first contribution\" -e=\"random entropy\" && snarkjs powersoftau prepare phase2 build/pot12_0001.ptau build/pot12_final.ptau",
+    "setup": "snarkjs groth16 setup build/ValidatorDelta.r1cs build/pot12_final.ptau build/ValidatorDelta_0000.zkey && snarkjs zkey contribute build/ValidatorDelta_0000.zkey build/ValidatorDelta_final.zkey --name=\"1st Contributor\" -e=\"random entropy\" && snarkjs zkey export verificationkey build/ValidatorDelta_final.zkey build/verification_key.json",
+    "prove": "node scripts/prove.js",
+    "verify": "snarkjs groth16 verify build/verification_key.json build/public.json build/proof.json",
+    "export:verifier": "snarkjs zkey export solidityverifier build/ValidatorDelta_final.zkey build/Verifier.sol"
+  },
+  "devDependencies": {
+    "snarkjs": "^0.7.5"
+  }
+}
