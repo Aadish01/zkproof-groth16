@@ -14,6 +14,8 @@ The circuit here is intentionally small to validate the workflow (`compile -> tr
 - Node.js 18+
 - `circom` installed and available on PATH
   - Check with: `circom --version`
+- Foundry (`forge`) installed and available on PATH
+  - Check with: `forge --version`
 
 ## Install
 
@@ -81,14 +83,54 @@ npm run export:verifier
 ```
 
 Output:
-- `build/Verifier.sol`
+- `src/Verifier.sol`
+
+> `src/Verifier.sol` is the contract Forge deploys.  
+> If you regenerate proving keys (`.zkey`), run `npm run export:verifier` again before deploy.
+
+## 7) Build verifier contract with Forge
+
+```bash
+npm run forge:build
+```
+
+## 8) Deploy verifier contract (Forge)
+
+Set env vars:
+
+```bash
+export RPC_URL="https://<your-rpc>"
+export PRIVATE_KEY="0x<deployer-private-key>"
+```
+
+Deploy:
+
+```bash
+npm run deploy:verifier
+```
+
+This deploys:
+- `src/Verifier.sol:Groth16Verifier`
+
+## 9) Verify deployed contract on block explorer (Forge)
+
+Set:
+
+```bash
+export CHAIN_ID="<chain-id>"
+export ETHERSCAN_API_KEY="<explorer-api-key>"
+export VERIFIER_ADDRESS="0x<deployed-address>"
+```
+
+Run:
+
+```bash
+npm run verify:verifier
+```
+
+Example chain IDs:
+- Ethereum mainnet: `1`
+- Holesky: `17000`
+- Sepolia: `11155111`
 
 ---
-
-## Notes for your real Oracle circuit
-
-- Replace `ValidatorDelta.circom` with your real circuit that:
-  - binds to `prevBeaconStateRoot`, `nextBeaconBlockRoot`, `nextBeaconStateRoot`
-  - proves SSZ inclusion of validator balances for your committed validator set
-  - outputs `deltaValidatorGwei`
-- Keep this folder structure and scripts; only circuit and witness-generation logic need to evolve.
