@@ -11,8 +11,16 @@
     "verify": "snarkjs groth16 verify build/verification_key.json build/public.json build/proof.json",
     "export:verifier": "mkdir -p src && snarkjs zkey export solidityverifier build/ValidatorDelta_final.zkey src/Verifier.sol",
     "forge:build": "forge build",
-    "deploy:verifier": "forge create src/Verifier.sol:Groth16Verifier --rpc-url \"$RPC_URL\" --private-key \"$PRIVATE_KEY\"",
-    "verify:verifier": "forge verify-contract --chain-id \"$CHAIN_ID\" --etherscan-api-key \"$ETHERSCAN_API_KEY\" \"$VERIFIER_ADDRESS\" src/Verifier.sol:Groth16Verifier"
+    "deploy:verifier": "forge create src/Verifier.sol:Groth16Verifier --broadcast --rpc-url \"$RPC_URL\" --private-key \"$PRIVATE_KEY\"",
+    "deploy:runner": "forge create src/VerifierRunner.sol:VerifierRunner --broadcast --rpc-url \"$RPC_URL\" --private-key \"$PRIVATE_KEY\" --constructor-args \"$VERIFIER_ADDRESS\"",
+    "verify:verifier": "forge verify-contract --chain-id \"$CHAIN_ID\" --etherscan-api-key \"$ETHERSCAN_API_KEY\" \"$VERIFIER_ADDRESS\" src/Verifier.sol:Groth16Verifier",
+    "verify:runner": "forge verify-contract --chain-id \"$CHAIN_ID\" --etherscan-api-key \"$ETHERSCAN_API_KEY\" \"$RUNNER_ADDRESS\" src/VerifierRunner.sol:VerifierRunner --constructor-args $(cast abi-encode \"constructor(address)\" \"$VERIFIER_ADDRESS\")",
+    "tx:valid": "node scripts/txValidProof.js",
+    "tx:invalid": "node scripts/txInvalidProof.js",
+    "tx:proofs": "npm run tx:valid && npm run tx:invalid"
+  },
+  "dependencies": {
+    "ethers": "^6.15.0"
   },
   "devDependencies": {
     "snarkjs": "^0.7.5"
