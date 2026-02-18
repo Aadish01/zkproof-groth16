@@ -133,4 +133,10 @@ Example chain IDs:
 - Holesky: `17000`
 - Sepolia: `11155111`
 
+## 10) Deployment Details (Sepolia Example)
+
+- Contract: `0x0Fa9fB198676059bd6eD45C19A65FE2e0a45fDB5`
+- Network: `sepolia`
+- Explorer URL: `https://sepolia.etherscan.io/address/0x0fa9fb198676059bd6ed45c19a65fe2e0a45fdb5`
+
 ---
