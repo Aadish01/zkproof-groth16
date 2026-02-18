@@ -1,0 +1,18 @@
+{
+  "network": "sepolia",
+  "chainId": 11155111,
+  "rpcUrlExample": "https://ethereum-sepolia-rpc.publicnode.com",
+  "contracts": {
+    "Groth16Verifier": {
+      "address": "0x0Fa9fB198676059bd6eD45C19A65FE2e0a45fDB5",
+      "deployer": "0x499E6DC5D5B0d917b29dB9b2eE53Df33caC8Ab3C"
+    },
+    "VerifierRunner": {
+      "address": "0xC583ab6052eecf11BF275549564204588F26819e",
+      "deployer": "0x499E6DC5D5B0d917b29dB9b2eE53Df33caC8Ab3C",
+      "constructorArgs": {
+        "verifier": "0x0Fa9fB198676059bd6eD45C19A65FE2e0a45fDB5"
+      }
+    }
+  }
+}
